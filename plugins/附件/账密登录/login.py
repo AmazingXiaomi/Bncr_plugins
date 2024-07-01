@@ -668,7 +668,7 @@ async def main(workList, uid, oocr):
     global ocr
     ocr = oocr
 
-    async def init_chrome():
+    def init_chrome():
         if platform.system() == "Windows":
             chrome_dir = os.path.join(
                 os.environ["USERPROFILE"],
@@ -740,7 +740,7 @@ async def main(workList, uid, oocr):
         else:
             return "unknown"
 
-    chromium_path = await init_chrome()
+    chromium_path = init_chrome()
     headless = True
     await logon_main(chromium_path, workList, uid, headless)
     os.remove("image.png") if os.path.exists("image.png") else None
