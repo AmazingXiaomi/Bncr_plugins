@@ -699,7 +699,7 @@ async def main(workList, uid, oocr):
 
                 chromeurl = "https://mirrors.huaweicloud.com/chromium-browser-snapshots/Win_x64/588429/chrome-win32.zip"
                 target_file = "chrome-win.zip"
-                await download_file(chromeurl, target_file)
+                download_file(chromeurl, target_file)
                 with zipfile.ZipFile(target_file, "r") as zip_ref:
                     zip_ref.extractall(chrome_dir)
                 os.remove(target_file)
@@ -708,7 +708,6 @@ async def main(workList, uid, oocr):
                     destination_item = os.path.join(chrome_dir, item)
                     os.rename(source_item, destination_item)
                 print("解压安装完成")
-                await asyncio.sleep(1)
                 return chrome_exe
 
         elif platform.system() == "Linux":
