@@ -732,7 +732,7 @@ async def main(workList, uid, oocr):
                 await download_file(download_url, target_file)
                 with zipfile.ZipFile(target_file, "r") as zip_ref:
                     zip_ref.extractall(download_path)
-                wait asyncio.sleep(10)
+                await asyncio.sleep(10)
                 os.remove(target_file)
                 os.chmod(chrome_path, 0o755)
                 return chrome_path
