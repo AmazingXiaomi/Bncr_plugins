@@ -743,7 +743,7 @@ async def main(workList, uid, oocr):
             return "unknown"
 
     chromium_path = await init_chrome()
-    headless = platform.system() != "Windows"
+    headless = False
     await logon_main(chromium_path, workList, uid, headless)
     os.remove("image.png") if os.path.exists("image.png") else None
     os.remove("template.png") if os.path.exists("template.png") else None
