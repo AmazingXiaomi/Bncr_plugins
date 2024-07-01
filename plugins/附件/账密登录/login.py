@@ -668,7 +668,7 @@ async def main(workList, uid, oocr):
     global ocr
     ocr = oocr
 
-    def init_chrome():
+    async def init_chrome():
         if platform.system() == "Windows":
             chrome_dir = os.path.join(
                 os.environ["USERPROFILE"],
@@ -699,7 +699,7 @@ async def main(workList, uid, oocr):
 
                 chromeurl = "https://mirrors.huaweicloud.com/chromium-browser-snapshots/Win_x64/588429/chrome-win32.zip"
                 target_file = "chrome-win.zip"
-                download_file(chromeurl, target_file)
+                await download_file(chromeurl, target_file)
                 with zipfile.ZipFile(target_file, "r") as zip_ref:
                     zip_ref.extractall(chrome_dir)
                 os.remove(target_file)
@@ -708,6 +708,7 @@ async def main(workList, uid, oocr):
                     destination_item = os.path.join(chrome_dir, item)
                     os.rename(source_item, destination_item)
                 print("解压安装完成")
+                await asyncio.sleep(1)
                 return chrome_exe
 
         elif platform.system() == "Linux":
@@ -731,6 +732,7 @@ async def main(workList, uid, oocr):
                 await download_file(download_url, target_file)
                 with zipfile.ZipFile(target_file, "r") as zip_ref:
                     zip_ref.extractall(download_path)
+                wait asyncio.sleep(10)
                 os.remove(target_file)
                 os.chmod(chrome_path, 0o755)
                 return chrome_path
@@ -739,7 +741,7 @@ async def main(workList, uid, oocr):
         else:
             return "unknown"
 
-    chromium_path = init_chrome()
+    chromium_path = await init_chrome()
     headless = True
     await logon_main(chromium_path, workList, uid, headless)
     os.remove("image.png") if os.path.exists("image.png") else None
@@ -748,4 +750,4 @@ async def main(workList, uid, oocr):
     os.remove("rgba_word_img.png") if os.path.exists("rgba_word_img.png") else None
     os.remove("rgb_word_img.png") if os.path.exists("rgb_word_img.png") else None
     print("登录完成")
-    await asyncio.sleep(20)
+    await asyncio.sleep(10)
