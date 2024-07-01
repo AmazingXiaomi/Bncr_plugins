@@ -144,7 +144,7 @@ async def logon_main(chromium_path, workList, uid, headless):
         try:
             now_time = datetime.datetime.now()
             print("循环检测中...")
-            if (now_time - start_time).total_seconds() > 120:
+            if (now_time - start_time).total_seconds() > 30:
                 print("进入超时分支")
                 workList[uid].status = "error"
                 workList[uid].msg = "登录超时"
@@ -748,4 +748,4 @@ async def main(workList, uid, oocr):
     os.remove("rgba_word_img.png") if os.path.exists("rgba_word_img.png") else None
     os.remove("rgb_word_img.png") if os.path.exists("rgb_word_img.png") else None
     print("登录完成")
-    await asyncio.sleep(20)
+    await asyncio.sleep(10)
