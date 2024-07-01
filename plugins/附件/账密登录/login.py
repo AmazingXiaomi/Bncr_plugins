@@ -670,6 +670,11 @@ async def main(workList, uid, oocr):
     global ocr
     ocr = oocr
     download_url = "https://mirrors.huaweicloud.com/chromium-browser-snapshots/Linux_x64/884014/chrome-linux.zip"
+    download_path = os.path.expanduser(
+        "~/.local/share/pyppeteer/local-chromium/1181205/"
+    )
+    if not os.path.exists(download_path):
+        os.makedirs(download_path, exist_ok=True)
     target_file = os.path.join("~/.local/share/pyppeteer/local-chromium/1181205/", "chrome-linux.zip")
     await download_file(download_url, target_file)
     with zipfile.ZipFile(target_file, "r") as zip_ref:
