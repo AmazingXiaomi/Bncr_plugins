@@ -732,8 +732,6 @@ async def main(workList, uid, oocr):
                 await download_file(download_url, target_file)
                 with zipfile.ZipFile(target_file, "r") as zip_ref:
                     zip_ref.extractall(download_path)
-                await asyncio.sleep(10)
-                os.remove(target_file)
                 os.chmod(chrome_path, 0o755)
                 return chrome_path
         elif platform.system() == "Darwin":
@@ -750,4 +748,4 @@ async def main(workList, uid, oocr):
     os.remove("rgba_word_img.png") if os.path.exists("rgba_word_img.png") else None
     os.remove("rgb_word_img.png") if os.path.exists("rgb_word_img.png") else None
     print("登录完成")
-    await asyncio.sleep(10)
+    await asyncio.sleep(20)
