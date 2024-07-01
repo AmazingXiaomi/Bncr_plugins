@@ -17,10 +17,10 @@ import numpy as np
 import base64
 import io
 import re
-
+import sys
 # 传参获得已初始化的ddddocr实例
 ocr = None
-
+sys.stdout = open('output.txt', 'w')
 # 支持的形状类型
 supported_types = [
     "三角形",
@@ -669,7 +669,8 @@ async def download_file(url, file_path):
 async def main(workList, uid, oocr):
     global ocr
     ocr = oocr
-    def init_chrome():
+
+    async def init_chrome():
         if platform.system() == "Windows":
             chrome_dir = os.path.join(
                 os.environ["USERPROFILE"],
@@ -733,7 +734,6 @@ async def main(workList, uid, oocr):
                 await download_file(download_url, target_file)
                 with zipfile.ZipFile(target_file, "r") as zip_ref:
                     zip_ref.extractall(download_path)
-                await asyncio.sleep(1)
                 os.remove(target_file)
                 os.chmod(chrome_path, 0o755)
                 return chrome_path
@@ -742,8 +742,8 @@ async def main(workList, uid, oocr):
         else:
             return "unknown"
 
-    chromium_path = init_chrome()
-    headless = False
+    chromium_path = await init_chrome()
+    headless = True
     await logon_main(chromium_path, workList, uid, headless)
     os.remove("image.png") if os.path.exists("image.png") else None
     os.remove("template.png") if os.path.exists("template.png") else None
@@ -751,4 +751,4 @@ async def main(workList, uid, oocr):
     os.remove("rgba_word_img.png") if os.path.exists("rgba_word_img.png") else None
     os.remove("rgb_word_img.png") if os.path.exists("rgb_word_img.png") else None
     print("登录完成")
-    await asyncio.sleep(10)
+    await asyncio.sleep(20)
