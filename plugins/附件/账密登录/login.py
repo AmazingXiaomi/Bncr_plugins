@@ -17,10 +17,8 @@ import numpy as np
 import base64
 import io
 import re
-import sys
 # 传参获得已初始化的ddddocr实例
 ocr = None
-sys.stdout = open('output.txt', 'w')
 # 支持的形状类型
 supported_types = [
     "三角形",
