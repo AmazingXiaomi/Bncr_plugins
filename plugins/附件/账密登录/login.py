@@ -144,7 +144,7 @@ async def logon_main(chromium_path, workList, uid, headless):
         try:
             now_time = datetime.datetime.now()
             print("循环检测中...")
-            if (now_time - start_time).total_seconds() > 30:
+            if (now_time - start_time).total_seconds() > 120:
                 print("进入超时分支")
                 workList[uid].status = "error"
                 workList[uid].msg = "登录超时"
@@ -185,7 +185,8 @@ async def logon_main(chromium_path, workList, uid, headless):
                     if not workList[uid].isAuto:
                         workList[uid].status = "SMS"
                         workList[uid].msg = "需要短信验证"
-
+	        # 重置时间
+                        start_time = datetime.datetime.now()
                         await sendSMS(page)
                         await page.waitFor(3000)
                         await typeSMScode(page, workList, uid)
